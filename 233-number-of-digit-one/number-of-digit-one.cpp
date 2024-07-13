@@ -1,5 +1,5 @@
 using ll = long long;
-ll dp[12][12][2];
+std::vector<std::vector<std::vector<ll>>> dp;
 
 class Solution {
     ll cnt_ones(const std::string &number, int idx, ll n1s, bool smaller) {
@@ -22,7 +22,8 @@ class Solution {
 
 public:
     int countDigitOne(int n) {
-        memset(dp, -1, sizeof(dp));
-        return (int) cnt_ones(std::to_string(n), 0, 0, 0);
+    int sz = std::to_string(n).size();
+    dp = std::vector<std::vector<std::vector<ll>>>(sz + 5, std::vector<std::vector<ll>>(sz + 5, std::vector<ll>(2, -1)));
+           return (int) cnt_ones(std::to_string(n), 0, 0, 0);
     }
 };
