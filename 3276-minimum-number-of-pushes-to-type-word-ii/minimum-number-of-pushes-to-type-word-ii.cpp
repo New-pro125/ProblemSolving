@@ -1,7 +1,7 @@
 class Solution {
 public:
     int minimumPushes(string word) {
-        std::vector<int>start(4),freq(26);
+        std::vector<int>freq(26);
         int cnt = 0;
         int res = 0;
         for(size_t i=0;i<word.size();i++){
