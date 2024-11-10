@@ -1,6 +1,7 @@
 public class Solution {
     public void Merge(int[] nums1, int m, int[] nums2, int n) {
-        int[] realNums1 = nums1.Take(m).ToArray();
+        int[] realNums1 = new int[m];
+        Array.Copy(nums1,realNums1,m);
         int nums1Idx = 0,nums2Idx =0;
         while(nums1Idx<m&&nums2Idx<n){
             if(realNums1[nums1Idx]<nums2[nums2Idx]){
