@@ -28,17 +28,18 @@ public class Solution {
         return false;
     }
     public int MinimumSubarrayLength(int[] nums, int k) {
-        int start= 1,end = nums.Length,minLength=-1;
-        while(start<=end){
-            int mid = start+(end-start)/2;
-            if(HasValidSubarray(nums,k,mid)){
-                minLength = mid;
-                end = mid-1;
+        int minLength = int.MaxValue;
+        int windowStart =0 ,windowEnd = 0 ;
+        int [] bitCounts = new int[32];
+        while(windowEnd <nums.Length){
+            UpdateBitCounts(bitCounts,nums[windowEnd],1);
+            while(windowStart <=windowEnd && ConvertBitsCountsToNumber(bitCounts)>=k){
+                minLength = Math.Min(minLength,windowEnd - windowStart +1);
+                UpdateBitCounts(bitCounts,nums[windowStart],-1);
+                windowStart++;
             }
-            else {
-                start = mid+1;
-            }
+            windowEnd++;
         }
-        return minLength;
+        return minLength == int.MaxValue ? -1 : minLength;
     }
 }
