@@ -1,22 +1,19 @@
 public class Solution {
     public int RemoveDuplicates(int[] nums) {
-        GC.Collect();
-        int[] freq = new int [20001]; // The Freq of Numbers (Normalize to be from 0 to 201)
-        for(int i =0 ;i<nums.Length;i++){
-            freq[nums[i]+10000]++;
-        }
-        int numsIdx=0;
-        for(int i=0;i<freq.Length;i++){
-           if(freq[i]>=2){
-                nums[numsIdx] = i-10000;
-                nums[numsIdx+1] = nums[numsIdx]; 
-                numsIdx+=2;
+        int l = 0 ,r = 0;
+        while(r<nums.Length){
+            int count = 1;
+            while(r+1<nums.Length && nums[r]==nums[r+1]){
+                count++;
+                r++;
             }
-            else if(freq[i]>0){
-                nums[numsIdx] = i-10000; 
-                numsIdx+=1;
+            count = Math.Min(2,count);
+            for(int i=0;i<count;i++){
+                nums[l] = nums[r];
+                l++;
             }
+            r++;
         }
-        return numsIdx;
+        return l;
     }
 }
