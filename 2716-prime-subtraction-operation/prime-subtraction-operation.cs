@@ -1,7 +1,7 @@
 public class Solution {
     public bool PrimeSubOperation(int[] nums) { 
         int n  = nums.Length;
-        
+        GC.Collect();
         //** Sieve of Eratosthenes
         bool[] primes = Enumerable.Repeat(true,1005).ToArray();
         primes[0] = primes[1] = false;
