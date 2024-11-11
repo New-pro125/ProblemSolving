@@ -1,5 +1,6 @@
 public class Solution {
     public int RemoveDuplicates(int[] nums) {
+        GC.Collect();
         int[] freq = new int [20001]; // The Freq of Numbers (Normalize to be from 0 to 201)
         for(int i =0 ;i<nums.Length;i++){
             freq[nums[i]+10000]++;
