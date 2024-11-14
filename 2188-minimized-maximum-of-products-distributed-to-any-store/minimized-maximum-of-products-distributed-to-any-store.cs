@@ -1,37 +1,30 @@
 public class Solution {
     public bool IsDistributable(int x,int[] quantities ,int n){
-        int j = 0;
-        int remaining = quantities[j];
-        for(int i=0;i<n;i++){
-            if(remaining <=x){
-                j++;
-                if(j==quantities.Length){
-                    return true;
-                }
-                else {
-                    remaining = quantities[j];
-                }
-            }
-            else {
-                remaining-=x;
-            }
-        }
-        return false;
+     int stores = 0;
+     foreach(int quantity in quantities){
+        stores +=quantity/x;
+        if(quantity%x!=0) stores++;
+        if(stores > n) return false;
+     }
+     return stores <=n;
     }
     public int MinimizedMaximum(int n, int[] quantities) {
-        int left =0,right = 0;
+        int max = 0,sum = 0;
         foreach(int quantity in quantities){
-            right = Math.Max(quantity,right);
+            max = Math.Max(quantity,max);
+            sum += quantity;
         }
-        while(left<right){
+        int left = 1,right = max,res = -1;
+        while(left<=right){
             int mid = left + (right-left)/2;
             if(IsDistributable(mid,quantities,n)){
-                right = mid;
+                res = mid;
+                right = mid-1;
             }
             else {
                 left = mid + 1;
             }
         }
-        return left;
+        return res;
     }
 }
