@@ -1,26 +1,36 @@
+using System;
+using System.Collections.Generic;
+
 public class Solution {
     public int[] ResultsArray(int[] nums, int k) {
-        int n = nums.Length;
-        if (n == 1) {
-            return new int[] { nums[0] };
-        }
-        if (k == 1) {
-            return nums;
-        }
-        int[] powers = new int[n - k + 1];
+        int length = nums.Length;
+        int[] result = new int[length - k + 1];
+        LinkedList<int> indexDeque = new LinkedList<int>();
 
-        for (int i = 0; i <= n - k; i++) {
-            bool isSorted = true;
-            for (int j = i; j < i + k - 1; j++) {
-                if (nums[j + 1] - nums[j] != 1) {
-                    isSorted = false;
-                    break;
-                }
+        for (int currentIndex = 0; currentIndex < length; currentIndex++) {
+            
+            if (indexDeque.Count > 0 && indexDeque.First.Value < currentIndex - k + 1) {
+                indexDeque.RemoveFirst();
             }
 
-            powers[i] = isSorted ? nums[i + k - 1] : -1;
+            
+            if (indexDeque.Count > 0 && nums[currentIndex] != nums[currentIndex - 1] + 1) {
+                indexDeque.Clear(); 
+            }
+
+            
+            indexDeque.AddLast(currentIndex);
+
+            
+            if (currentIndex >= k - 1) {
+                if (indexDeque.Count == k) { 
+                    result[currentIndex - k + 1] = nums[indexDeque.Last.Value];
+                } else {
+                    result[currentIndex - k + 1] = -1; 
+                }
+            }
         }
 
-        return powers;
+        return result;
     }
 }
