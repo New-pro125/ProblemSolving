@@ -1,33 +1,44 @@
 public class Solution {
-    public char[][] RotateTheBox(char[][] box) {
-        int m = box.Length;       // Number of rows
-        int n = box[0].Length;    // Number of columns
-        
-        // Step 1: Apply gravity row by row in the original box
-        for (int i = 0; i < m; i++) {
-            int emptyIndex = n - 1; // Start from the rightmost position
-            for (int j = n - 1; j >= 0; j--) {
-                if (box[i][j] == '#') {
-                    // Move stone down to the first empty spot
-                    box[i][j] = '.';
-                    box[i][emptyIndex] = '#';
-                    emptyIndex--; // Update the empty position
-                } else if (box[i][j] == '*') {
-                    // Reset the empty index to the position before the obstacle
-                    emptyIndex = j - 1;
+    private const char EMPTY  = '.';
+    private const char STONE = '#';
+    private const char OBSTACLE = '*';
+    private void RearrangeBox(char[][]box){
+        // int[] firstEmptyColIdx = new int[box[0].Length];
+            for(int j = 0;j<box[0].Length;j++){
+                int emptyIdx = box.Length - 1;
+                for(int i = box.Length-1;i>=0;i--){
+                    if(box[i][j]==STONE){
+                        emptyIdx = emptyIdx < i ? i: emptyIdx;
+                        box[emptyIdx][j] = STONE;
+                        if(emptyIdx!=i)
+                            box[i][j] = EMPTY;
+                    }
+                    else if(box[i][j]==OBSTACLE){
+                        emptyIdx = i;
+                    }
+                    while(emptyIdx > 0 && box[emptyIdx][j]!=EMPTY)
+                        emptyIdx--;
                 }
             }
+            // for(int j = 0 ;j<box[0].Length;j++){
+            //     Console.Write("{0} ",firstEmptyColIdx[j]);
+            // }
+            // Console.WriteLine();
         }
-
-        // Step 2: Rotate the box 90 degrees clockwise
-        char[][] rotatedBox = new char[n][];
-        for (int i = 0; i < n; i++) {
-            rotatedBox[i] = new char[m];
-            for (int j = 0; j < m; j++) {
-                rotatedBox[i][j] = box[m - j - 1][i];
+    public char[][] RotateTheBox(char[][] box) {
+        if(box.Length==0){
+            return [[]];
+        }
+        char[][] rotatedBox = new char[box[0].Length][];
+        for(int i = 0;i<rotatedBox.Length;i++){
+            rotatedBox[i] = new char[box.Length];
+        }
+        for(int i = 0;i<box.Length;i++){
+            for(int j = 0;j<box[0].Length;j++){
+                rotatedBox[j][box.Length - i-1] = box[i][j];
             }
         }
-
+        RearrangeBox(rotatedBox);
         return rotatedBox;
     }
 }
