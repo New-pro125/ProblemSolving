@@ -1,8 +1,8 @@
 public class Solution {
     public bool CheckInclusion(string s1, string s2) {
         if(s1.Length > s2.Length) return false;
-        int[] s1Count = new int[26];
-        int[] s2Count = new int[26];
+        Span<int> s1Count = stackalloc int[26];
+        Span<int> s2Count = stackalloc int[26];
         for(int i= 0;i<s1.Length;i++){
             s1Count[s1[i] - 'a']++;
         }
