@@ -1,17 +1,19 @@
 public class Solution {
     public int LengthOfLIS(int[] nums) {
-        int n = nums.Length;
-        int[,] memo = new int[n + 1, n+1];
-        for(int idx = n - 1; idx >= 0; idx--)
+        List<int> piles = new();
+        foreach (int num in nums)
+        {
+            int idx = piles.BinarySearch(num);
+            if (idx < 0) idx = ~idx;
+            if (idx == piles.Count)
             {
-                for(int prevIdx = idx-1;prevIdx >= -1; prevIdx--)
-                    {
-                        if (prevIdx == -1 || nums[idx] > nums[prevIdx])
-                            memo[prevIdx + 1, idx] = Math.Max(memo[prevIdx + 1, idx], 1 + memo[idx + 1, idx + 1]);
-                        memo[prevIdx + 1, idx] = Math.Max(memo[prevIdx + 1, idx], memo[prevIdx + 1, idx + 1]);
-                    }
+                piles.Add(num);
             }
-              
-        return memo[0,0];
+            else
+            {
+                piles[idx] = num;
+            }
+        }
+        return piles.Count;
     }
 }
